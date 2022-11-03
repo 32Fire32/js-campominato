@@ -2,32 +2,33 @@
 
 // FUNZIONI
 
-function startGame(board, cells, maxNumbers, level){
+function startGame(board, maxNumbers, level){
+        let cellNumber;
         board.innerHTML ="";
         for ( let i = 1; i <=maxNumbers; i++){
-            cells = document.createElement("div");
-            cells.innerHTML = i;
-            cells.classList.add("cellboard");
-            cells.addEventListener('click', function(){
+            cellNumber = document.createElement("div");
+            cellNumber.innerHTML = i;
+            cellNumber.classList.add("cellboard");
+            cellNumber.addEventListener('click', function(){
                 scoreNumber.push(i);
                 document.getElementById("score").innerHTML = scoreNumber.length;
                 this.classList.add("active");
                 })
                 if (level === "easy") {
-                    cells.classList.add("easy");
+                    cellNumber.classList.add("easy");
                 } else if (level === "hard") {
-                    cells.classList.add("hard");
+                    cellNumber.classList.add("hard");
                 } else if (level === "hell") {
-                    cells.classList.add("hell");
+                    cellNumber.classList.add("hell");
                 }
-                // console.log(Number(cells.innerHTML));
-                board.append(cells);
-                endGame(cells, bombArray);
+                // console.log(Number(cellNumber.innerHTML));
+            board.append(cellNumber);
+            endGame(cellNumber, bombArray);
         }        
 }
 
 function endGame(cell, array) {
-    cell.addEventListener('click', function(){
+    cell.addEventListener('click', function on(){
         if (array.indexOf(Number(cell.innerHTML)) != -1){
             cell.classList.add("bomb");
             console.log(cell.innerHTML);
@@ -36,9 +37,9 @@ function endGame(cell, array) {
         } else {
             console.log("nessuna bomba");
         }
-        console.log(cell.innerHTML, array.indexOf(Number(cell.innerHTML)), typeof(Number(cell.innerHTML)));
-    }
-)}
+        console.log(cell.innerHTML, array.indexOf(Number(cell.innerHTML)), typeof(Number(cell.innerHTML)))
+    }, true);
+}
 
 // creo la funzione delle bombe con 16 numeri univoci
 
@@ -71,20 +72,20 @@ let randomNumber = 0;
 let randomNumberarray = [];
 let bombArray = [];
 let scoreNumber= [];
-let cellNumber;
+
 
 // mi prendo i valori delle options
 playButton.addEventListener('click', function(){
     const selectElement = document.getElementById("level").value;
     console.log(selectElement);
     if ( selectElement === "easy") {        
-        startGame(cellContainer, cellNumber, 100, "easy");   
+        startGame(cellContainer, 100, "easy");   
         createBombs(bombArray, randomNumber, randomNumberarray, 100);     
     } else if (selectElement === "hard") {        
-        startGame(cellContainer, cellNumber, 81, "hard");  
+        startGame(cellContainer, 81, "hard");  
         createBombs(bombArray, randomNumber, randomNumberarray, 81);           
     } else {        
-        startGame(cellContainer, cellNumber, 49, "hell");
+        startGame(cellContainer, 49, "hell");
         createBombs(bombArray, randomNumber, randomNumberarray, 49); 
     }
     
