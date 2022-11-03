@@ -10,43 +10,51 @@ function startGame(board, maxNumbers, level){
             cellNumber.innerHTML = i;
             cellNumber.classList.add("cellboard");
             cellNumber.addEventListener('click', function(){
-            console.log(i);
-            scoreNumber.push(i);
-            console.log(scoreNumber.length);
-            document.getElementById("score").innerHTML = scoreNumber.length;
-            this.classList.add("active");
-            })
-            if (level === "easy") {
-                cellNumber.classList.add("easy");
-            } else if (level === "hard") {
-                cellNumber.classList.add("hard");
-            } else if (level === "hell") {
-                cellNumber.classList.add("hell");
-            }
-            // console.log(Number(cellNumber.innerHTML));
-            board.append(cellNumber);
-            endGame(cellNumber, bombArray, Number(cellNumber.innerHTML));
+                scoreNumber.push(i);
+                document.getElementById("score").innerHTML = scoreNumber.length;
+                this.classList.add("active");
+                })
+                if (level === "easy") {
+                    cellNumber.classList.add("easy");
+                } else if (level === "hard") {
+                    cellNumber.classList.add("hard");
+                } else if (level === "hell") {
+                    cellNumber.classList.add("hell");
+                }
+                // console.log(Number(cellNumber.innerHTML));
+                board.append(cellNumber);
+                endGame(cellNumber, bombArray, randomNumber);
         }        
 }
 
 function endGame(cell, array, number) {
     cell.addEventListener('click', function(){
-        if (cell.innerHTML === array[number]){
+        if (array.indexOf(Number(cell.innerHTML)) != -1){
             cell.classList.add("bomb");
+            console.log(cell.innerHTML);
+            alert("hai perso");
+        } else {
+            console.log("nessuna bomba");
         }
-        console.log("lo legge");
-        console.log(cell.innerHTML, array[number]);
+        console.log(cell.innerHTML, array.indexOf(Number(cell.innerHTML)), typeof(Number(cell.innerHTML)));
     }
 )}
 
-let i = 0;
-let randomNumber = 0;
-let randomNumberarray = [];
-let bombArray = [];
-let scoreNumber= [];
+// creo la funzione delle bombe con 16 numeri univoci
 
-//mi prendo lo score
-// const score = document.getElementById("score").innerHTML = scoreNumber.length;
+function createBombs(number){
+    while ( bombArray.length < 16 ){
+        i++;
+        randomNumber = (Math.floor(Math.random() * number) + 1);
+        randomNumberarray.push(randomNumber);
+        if (bombArray.includes(randomNumber) === false ){
+            bombArray.push(randomNumber);
+            // console.log(randomNumber);
+        }
+    }
+    console.log("l'array delle bombe è " + bombArray);
+}
+
 
 //mi prendo il tasto play
 const playButton = document.querySelector("button");
@@ -54,30 +62,25 @@ const playButton = document.querySelector("button");
 // mi prendo la board
 const cellContainer = document.querySelector(".board");
 
-// creo l'array delle bombe con 16 numeri univoci
-
-while ( bombArray.length < 16 ){
-    i++;
-    randomNumber = (Math.floor(Math.random() * 16) + 1);
-    randomNumberarray.push(randomNumber);
-    if (bombArray.includes(randomNumber) === false ){
-        bombArray.push(randomNumber);
-    }
-}
-console.log("l'array dei numero randomici è " + randomNumberarray);
-console.log("l'array delle bombe è " + bombArray);
-console.log("i numeri randomici sono " + randomNumber);
+let i = 1;
+let randomNumber = 0;
+let randomNumberarray = [];
+let bombArray = [];
+let scoreNumber= [];
 
 // mi prendo i valori delle options
 playButton.addEventListener('click', function(){
     const selectElement = document.getElementById("level").value;
     console.log(selectElement);
     if ( selectElement === "easy") {        
-        startGame(cellContainer, 100, "easy");        
+        startGame(cellContainer, 100, "easy");   
+        createBombs(100);     
     } else if (selectElement === "hard") {        
-        startGame(cellContainer, 81, "hard");            
+        startGame(cellContainer, 81, "hard");  
+        createBombs(81);           
     } else {        
         startGame(cellContainer, 49, "hell");
+        createBombs(49); 
     }
     
 })
