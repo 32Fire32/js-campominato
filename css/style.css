@@ -32,6 +32,12 @@ main {
     background-color: lightskyblue;
     display: flex;
     flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+}
+
+p {
+    font-size: 2rem;
 }
 
 .board {
@@ -69,6 +75,10 @@ main {
 
 .active {
     background-color: blue;
+}
+
+.bomb {
+    background-color: red;
 }
 
 footer {

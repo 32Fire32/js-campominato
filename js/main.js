@@ -4,13 +4,17 @@
 
 function startGame(board, maxNumbers, level){
         cellContainer.innerHTML ="";
+        let cellNumber;
         for ( let i = 1; i <=maxNumbers; i++){
-            const cellNumber = document.createElement("div");
+            cellNumber = document.createElement("div");
             cellNumber.innerHTML = i;
             cellNumber.classList.add("cellboard");
             cellNumber.addEventListener('click', function(){
-                this.classList.add("active");
-                console.log(i);
+            console.log(i);
+            scoreNumber.push(i);
+            console.log(scoreNumber.length);
+            document.getElementById("score").innerHTML = scoreNumber.length;
+            this.classList.add("active");
             })
             if (level === "easy") {
                 cellNumber.classList.add("easy");
@@ -19,12 +23,30 @@ function startGame(board, maxNumbers, level){
             } else if (level === "hell") {
                 cellNumber.classList.add("hell");
             }
+            // console.log(Number(cellNumber.innerHTML));
             board.append(cellNumber);
-        }
+            endGame(cellNumber, bombArray, Number(cellNumber.innerHTML));
+        }        
 }
 
+function endGame(cell, array, number) {
+    cell.addEventListener('click', function(){
+        if (cell.innerHTML === array[number]){
+            cell.classList.add("bomb");
+        }
+        console.log("lo legge");
+        console.log(cell.innerHTML, array[number]);
+    }
+)}
+
+let i = 0;
+let randomNumber = 0;
+let randomNumberarray = [];
+let bombArray = [];
+let scoreNumber= [];
+
 //mi prendo lo score
-const score = document.getElementById("score");
+// const score = document.getElementById("score").innerHTML = scoreNumber.length;
 
 //mi prendo il tasto play
 const playButton = document.querySelector("button");
@@ -34,21 +56,17 @@ const cellContainer = document.querySelector(".board");
 
 // creo l'array delle bombe con 16 numeri univoci
 
-let i = 0;
-let randomNumberarray = [];
-let bombArray = [];
 while ( bombArray.length < 16 ){
     i++;
-    let randomNumber = (Math.floor(Math.random() * 16) + 1);
-    console.log("il numero random è " + randomNumber);
+    randomNumber = (Math.floor(Math.random() * 16) + 1);
     randomNumberarray.push(randomNumber);
-    console.log("l'array dei numero randomici è " + randomNumberarray);
     if (bombArray.includes(randomNumber) === false ){
         bombArray.push(randomNumber);
     }
-
 }
+console.log("l'array dei numero randomici è " + randomNumberarray);
 console.log("l'array delle bombe è " + bombArray);
+console.log("i numeri randomici sono " + randomNumber);
 
 // mi prendo i valori delle options
 playButton.addEventListener('click', function(){
@@ -63,5 +81,9 @@ playButton.addEventListener('click', function(){
     }
     
 })
+
+
+
+
 
 
