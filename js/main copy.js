@@ -10,19 +10,16 @@ function startGame(board, maxNumbers, level){
             cellNumber.innerHTML = i;
             cellNumber.classList.add("cellboard");
             cellNumber.addEventListener('click', work);
-            if (level === "easy") {
-                cellNumber.classList.add("easy");
-            } else if (level === "hard") {
-                cellNumber.classList.add("hard");
-            } else if (level === "hell") {
-                cellNumber.classList.add("hell");
-            }
             function work(){
-                scoreNumber.push(i);
-                document.getElementById("score").innerHTML = scoreNumber.length;
-                this.classList.add("active");
+                
                 }
-               
+                if (level === "easy") {
+                    cellNumber.classList.add("easy");
+                } else if (level === "hard") {
+                    cellNumber.classList.add("hard");
+                } else if (level === "hell") {
+                    cellNumber.classList.add("hell");
+                }
                 // console.log(Number(cellNumber.innerHTML));
             board.append(cellNumber);
             endGame(cellNumber, bombArray);
@@ -37,9 +34,12 @@ function endGame(cell, array) {
             console.log(cell.innerHTML);
             document.getElementById("finalscore").innerHTML = "Mi dispiace hai perso! Il tuo punteggio è " + (scoreNumber.length - 1);
             document.getElementById("reload").innerHTML = "Clicca QUI per riavviare";
-            cellNumber.removeEventListener('click', work());
+            cell.removeEventListener('click', work());
+            console.log(scoreNumber);
         } else {
-            console.log("nessuna bomba");
+            scoreNumber.push(i);
+            document.getElementById("score").innerHTML = scoreNumber.length;
+            this.classList.add("active");
         }
         console.log(cell.innerHTML, array.indexOf(Number(cell.innerHTML)), typeof(Number(cell.innerHTML)))
     };
@@ -84,17 +84,14 @@ let scoreNumber= [];
 playButton.addEventListener('click', function(){
     const selectElement = document.getElementById("level").value;
     console.log(selectElement);
-    if ( selectElement === "easy") { 
-        let TotalCellTabs = 100;       
-        startGame(cellContainer, TotalCellTabs, "easy");   
+    if ( selectElement === "easy") {        
+        startGame(cellContainer, 100, "easy");   
         createBombs(bombArray, randomNumber, randomNumberarray, 100);     
-    } else if (selectElement === "hard") {  
-        let TotalCellTabs = 81;       
-        startGame(cellContainer, TotalCellTabs, "hard");  
+    } else if (selectElement === "hard") {        
+        startGame(cellContainer, 81, "hard");  
         createBombs(bombArray, randomNumber, randomNumberarray, 81);           
     } else {        
-        let TotalCellTabs = 49;       
-        startGame(cellContainer, TotalCellTabs, "hell");
+        startGame(cellContainer, 49, "hell");
         createBombs(bombArray, randomNumber, randomNumberarray, 49); 
     }
     
@@ -104,12 +101,6 @@ playButton.addEventListener('click', function(){
 reloadButton.addEventListener('click', function(){
     window.location.reload();
 })
-
-//vittoria
-
-if(scoreNumber.length === TotalCellTabs - 16) {
-    alert("bravissimo hai terminato il gioco");
-}
 
 
 
